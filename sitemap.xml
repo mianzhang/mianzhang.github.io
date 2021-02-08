@@ -3,134 +3,134 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://example.com/project/project1/</loc>
+    <loc>http://mianzhang.github.io/project/project1/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/project/project2/</loc>
+    <loc>http://mianzhang.github.io/project/project2/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/project/project3/</loc>
+    <loc>http://mianzhang.github.io/project/project3/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/project/project4/</loc>
+    <loc>http://mianzhang.github.io/project/project4/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/post/creating-a-new-theme/</loc>
+    <loc>http://mianzhang.github.io/post/creating-a-new-theme/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/tags/go/</loc>
+    <loc>http://mianzhang.github.io/tags/go/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/tags/golang/</loc>
+    <loc>http://mianzhang.github.io/tags/golang/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/tags/hugo/</loc>
+    <loc>http://mianzhang.github.io/tags/hugo/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/</loc>
+    <loc>http://mianzhang.github.io/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/post/</loc>
+    <loc>http://mianzhang.github.io/post/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/tags/</loc>
+    <loc>http://mianzhang.github.io/tags/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/tags/themes/</loc>
+    <loc>http://mianzhang.github.io/tags/themes/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/post/goisforlovers/</loc>
+    <loc>http://mianzhang.github.io/post/goisforlovers/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/tags/development/</loc>
+    <loc>http://mianzhang.github.io/tags/development/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/post/hugoisforlovers/</loc>
+    <loc>http://mianzhang.github.io/post/hugoisforlovers/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/tags/template/</loc>
+    <loc>http://mianzhang.github.io/tags/template/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/tags/jekyll/</loc>
+    <loc>http://mianzhang.github.io/tags/jekyll/</loc>
     <lastmod>2014-03-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/post/migrate-from-jekyll/</loc>
+    <loc>http://mianzhang.github.io/post/migrate-from-jekyll/</loc>
     <lastmod>2014-03-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/tags/static-site-generator/</loc>
+    <loc>http://mianzhang.github.io/tags/static-site-generator/</loc>
     <lastmod>2014-03-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.com/about/</loc>
+    <loc>http://mianzhang.github.io/about/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/tags/bootstrap/</loc>
+    <loc>http://mianzhang.github.io/tags/bootstrap/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/categories/</loc>
+    <loc>http://mianzhang.github.io/categories/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/tags/css/</loc>
+    <loc>http://mianzhang.github.io/tags/css/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/tags/highlight-js/</loc>
+    <loc>http://mianzhang.github.io/tags/highlight-js/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/tags/html/</loc>
+    <loc>http://mianzhang.github.io/tags/html/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/tags/js/</loc>
+    <loc>http://mianzhang.github.io/tags/js/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/project/</loc>
+    <loc>http://mianzhang.github.io/project/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/tags/responsive/</loc>
+    <loc>http://mianzhang.github.io/tags/responsive/</loc>
   </url>
   
   <url>
-    <loc>http://example.com/tags/syntax-highlighting/</loc>
+    <loc>http://mianzhang.github.io/tags/syntax-highlighting/</loc>
   </url>
   
 </urlset>

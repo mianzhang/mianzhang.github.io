@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>hugo on Mian&#39;s Blogs</title>
-    <link>https://mianzhang.github.io/tags/hugo/</link>
-    <description>Recent content in hugo on Mian&#39;s Blogs</description>
+    <title>github_pages on Mian&#39;s Blogs</title>
+    <link>https://mianzhang.github.io/tags/github_pages/</link>
+    <description>Recent content in github_pages on Mian&#39;s Blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mianzhang.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mianzhang.github.io/tags/github_pages/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hugo搭建博客踩坑</title>
       <link>https://mianzhang.github.io/post/hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%B8%A9%E5%9D%91/</link>

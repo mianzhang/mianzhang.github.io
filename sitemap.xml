@@ -3,94 +3,33 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://mianzhang.github.io/project/project1/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/project/project2/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/project/project3/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/project/project4/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/post/creating-a-new-theme/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/go/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/golang/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+    <loc>https://mianzhang.github.io/tags/github_pages/</loc>
+    <lastmod>2021-02-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://mianzhang.github.io/tags/hugo/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mianzhang.github.io/post/hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%B8%A9%E5%9D%91/</loc>
+    <lastmod>2021-02-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://mianzhang.github.io/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://mianzhang.github.io/post/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://mianzhang.github.io/tags/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/themes/</loc>
-    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/post/goisforlovers/</loc>
-    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/development/</loc>
-    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/post/hugoisforlovers/</loc>
-    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/template/</loc>
-    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/jekyll/</loc>
-    <lastmod>2014-03-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/post/migrate-from-jekyll/</loc>
-    <lastmod>2014-03-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/static-site-generator/</loc>
-    <lastmod>2014-03-10T00:00:00+00:00</lastmod>
+    <lastmod>2021-02-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -98,39 +37,7 @@
   </url>
   
   <url>
-    <loc>https://mianzhang.github.io/tags/bootstrap/</loc>
-  </url>
-  
-  <url>
     <loc>https://mianzhang.github.io/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/css/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/highlight-js/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/html/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/js/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/project/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/responsive/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mianzhang.github.io/tags/syntax-highlighting/</loc>
   </url>
   
 </urlset>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Mian&#39;s Blogs</title>
-    <link>https://mianzhang.github.io/post/</link>
-    <description>Recent content in Posts on Mian&#39;s Blogs</description>
+    <title>杂七杂八的理论 on Mian&#39;s Blogs</title>
+    <link>https://mianzhang.github.io/tags/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%90%86%E8%AE%BA/</link>
+    <description>Recent content in 杂七杂八的理论 on Mian&#39;s Blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mianzhang.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mianzhang.github.io/tags/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%90%86%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Photograph</title>
       <link>https://mianzhang.github.io/post/photograph/</link>
@@ -21,16 +21,6 @@
   镜头的焦距与调焦 焦距是指镜头与成像清晰的成像平面之间的距离。焦距越长，物体在成像平面上的尺寸越大，相对的视野就越窄。
 我们说“对上焦了”是指物体处于焦内（图像清晰的距离范围）了。对焦的方式有以下几种：
  调整光圈大小。光圈越小，焦内越宽。 调整焦距，焦距越长，焦内越远。 调整相机与物体的距离，使其处于焦内。  </description>
-    </item>
-    
-    <item>
-      <title>Hugo搭建博客踩坑</title>
-      <link>https://mianzhang.github.io/post/hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%B8%A9%E5%9D%91/</link>
-      <pubDate>Mon, 08 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mianzhang.github.io/post/hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%B8%A9%E5%9D%91/</guid>
-      <description>一个最大的坑是：hugo生成的静态网页直接由push到github pages上会丢失css样式。
-解决办法：https://stackoverflow.com/questions/46547831/why-my-hugo-theme-host-on-github-page-lost-css-style</description>
     </item>
     
   </channel>

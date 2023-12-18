@@ -50,10 +50,11 @@ a:visited {
 }
 a:hover {
     text-decoration: none;
-    text-decoration-line: underline;
+    /* text-decoration-line: underline; */
     text-decoration-color: black;
     font-size:1.1em;
-    color: rgb(154, 0, 0);
+    /* color: #2596be; */
+    /* background-color: burlywood */
 }
 
 ul {

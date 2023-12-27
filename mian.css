@@ -12,7 +12,10 @@ body {
     background-color: rgb(256, 256, 256);
     font-style: normal;
     font-size: 1.4em;
-    font-family: Candara, Constantia, Avenir Next, Palatino, Cambria, Times;
+    /* font-family: 'Raleway'; */
+    font-family: cursive;
+    font-weight: 200;
+    font-stretch: condensed;
     width: 1500px;
     text-align: left;
 }
@@ -106,4 +109,8 @@ h6 is 0.7 em*/
 .fa-twitter .fa-instagram .fa-github {
   background: white;
   color: white;
+}
+
+img {
+  border-radius: 50%;
 }

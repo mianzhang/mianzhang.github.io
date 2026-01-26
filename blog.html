@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Blog - Mian Zhang</title>
+
+    <meta name="author" content="Mian Zhang">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/favicon/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <script>
+      function toggleTheme() {
+        const html = document.documentElement;
+        if (html.getAttribute('data-theme') === 'dark') {
+          html.removeAttribute('data-theme');
+        } else {
+          html.setAttribute('data-theme', 'dark');
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    
+    <div class="container">
+
+      <section class="section">
+        <h2>Blog</h2>
+        <!-- <p>Below are links to various blog posts / notes / files. You can link to any HTML page, PDF, or external URL. To add an entry, edit this file and add another <code class="social-link">.blog-item</code> block.</p> -->
+
+        <div class="blog-list">
+
+          <div class="paper blog-item">
+            <a href="blogs/annotated_claude_system_prompt.html">
+              <div class="paper-title">Annotated Claude System Prompt</div>
+            </a>
+            <div class="blog-meta">HTML · 2025-10-01</div>
+            <p>A sequential breakdown of the system prompt used for the Claude 4.</p>
+          </div>
+         
+
+          <!-- Template for adding a new blog entry:
+          <div class="paper blog-item">
+            <a href="PATH_OR_URL">
+              <div class="paper-title">Title of Your Post or File</div>
+            </a>
+            <div class="blog-meta">TYPE · optional date</div>
+            <p>Short description or excerpt.</p>
+          </div>
+          -->
+
+        </div>
+
+      </section>
+
+      <div style="margin-top:40px; font-size:0.95em;">
+        <a href="index.html" class="social-link">← Back to Home</a>
+      </div>
+
+    </div>
+  </body>
+</html>

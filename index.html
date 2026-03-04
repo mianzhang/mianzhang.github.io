@@ -21,6 +21,17 @@
           html.setAttribute('data-theme', 'dark');
         }
       }
+
+      const AVATAR_IMAGES = ['avatar/me.jpg', 'avatar/kepler.jpg'];
+      const FIRST_AVATAR_WEIGHT = 0.95; // 5% chance for first image
+      function setRandomAvatar() {
+        const img = document.querySelector('.profile-image img');
+        if (img && AVATAR_IMAGES.length) {
+          const useFirst = Math.random() < FIRST_AVATAR_WEIGHT;
+          img.src = AVATAR_IMAGES[useFirst ? 0 : 1];
+        }
+      }
+      document.addEventListener('DOMContentLoaded', setRandomAvatar);
     </script>
   </head>
 
@@ -51,7 +62,7 @@
           </div>
         </div>
         <div class="profile-image">
-          <img alt="profile photo" src="images/avatar-3.jpg">
+          <img alt="profile photo" src="avatar/avatar-3.jpg" id="profile-photo">
         </div>
       </section>
 

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spine-Branch Coordination for Multi-agent Computer Use</title>
+<meta name="description" content="Spine-Branch coordination makes single-parent VM inheritance a first-class planning constraint: a persistent spine carries live VM state while disposable branches gather artifacts in parallel.">
+<meta property="og:title" content="Spine-Branch Coordination for Multi-agent Computer Use">
+<meta property="og:description" content="A persistent spine carries live VM state; disposable branches gather artifacts in parallel. 6% to 16.5% higher success and 34% to 70% lower cost over MACU.">
+<meta property="og:image" content="static/img/framework.png">
+<link rel="icon" href="static/img/logo_square.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFFFF; --paper-2:#E9EAF6; --ink:#141C8C; --ink-soft:#3038AE;
+  --grid:rgba(20,28,140,.10); --faint:rgba(20,28,140,.20);
+  --serif:'Newsreader',Georgia,serif;
+  --sans:'Hanken Grotesk','Helvetica Neue',sans-serif;
+  --mono:'DM Mono',ui-monospace,monospace;
+  --edge:clamp(22px,3.4vw,60px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:400;line-height:1.55}
+main,nav,footer{position:relative;z-index:1}
+a{color:var(--ink);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;display:block}
+::selection{background:var(--ink);color:var(--paper)}
+
+/* ---- type helpers ---- */
+.serif{font-family:var(--serif);font-weight:400;letter-spacing:-.005em}
+.micro{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.16em}
+.mono{font-family:var(--mono);font-weight:400;letter-spacing:.05em}
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--edge)}
+
+/* ---- top chrome bar ---- */
+nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.9);backdrop-filter:blur(6px);
+  border-bottom:1.5px solid var(--ink)}
+nav .bar{display:flex;align-items:center;gap:16px;max-width:1200px;margin:0 auto;padding:11px var(--edge)}
+nav .brand{display:flex;align-items:center;gap:10px}
+nav .brand img{height:30px}
+nav .brand b{font-family:var(--serif);font-weight:500;font-size:19px;letter-spacing:-.01em}
+nav .links{margin-left:auto;display:flex;gap:20px;align-items:center}
+nav .links a{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav .links a:hover{text-decoration:none;opacity:.6}
+nav .links a.tag{border:1.5px solid var(--ink);padding:6px 12px}
+nav .links a.tag:hover{background:var(--ink);color:var(--paper);opacity:1}
+@media(max-width:800px){nav .links a.hideable{display:none}}
+
+/* ---- section frame ---- */
+section{padding:clamp(56px,8vh,104px) 0;border-bottom:1px solid var(--faint)}
+.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;
+  border-bottom:1.5px solid var(--ink);padding-bottom:clamp(12px,1.6vh,20px);margin-bottom:clamp(26px,3.4vh,44px)}
+.topbar .h{font-family:var(--serif);font-weight:400;line-height:1;letter-spacing:-.01em;
+  font-size:clamp(28px,3.4vw,46px)}
+.topbar .lab{font-family:var(--mono);font-size:clamp(11px,.9vw,13px);letter-spacing:.05em;
+  text-align:right;white-space:nowrap;padding-bottom:6px}
+.kicker{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.18em;
+  font-size:13px;display:inline-block;margin-bottom:14px}
+.lede{font-size:clamp(16px,1.15vw,19px);line-height:1.55;max-width:70ch;margin:0 0 8px}
+p.body{font-size:clamp(14.5px,.98vw,16px);max-width:74ch}
+b,strong{font-weight:700}
+/* design-principle callout (restrained tint + accent bar) */
+.principle{background:var(--paper-2);border-left:3px solid var(--ink);
+  padding:clamp(14px,1.6vw,20px) clamp(16px,1.8vw,24px)}
+.principle .k{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.18em;
+  font-size:11px;opacity:.6;margin-bottom:8px}
+.principle p{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.005em;
+  font-size:clamp(16px,1.4vw,21px);line-height:1.4;margin:0;max-width:60ch}
+.principle p b{font-style:normal;font-weight:600}
+
+/* ---- hero / cover ---- */
+.cover{position:relative;overflow:hidden;padding:clamp(60px,9vh,120px) 0 clamp(50px,7vh,96px);border-bottom:1.5px solid var(--ink)}
+.cover .inner{position:relative;z-index:5;max-width:74%}
+@media(max-width:900px){.cover .inner{max-width:100%}}
+.cover h1{font-family:var(--serif);font-weight:400;letter-spacing:-.012em;line-height:.98;
+  font-size:clamp(36px,min(5.6vw,9vh),74px);margin:6px 0 0}
+.cover .ed{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.4vw,38px);line-height:1.14;
+  margin:clamp(18px,2.2vh,30px) 0 0;max-width:30ch}
+.cover .meta{margin-top:clamp(22px,2.8vh,38px);display:flex;flex-direction:column;gap:6px}
+.cover .authors{font-size:clamp(14.5px,1vw,16.5px);line-height:1.7}
+.cover .authors sup{font-family:var(--mono);font-size:.68em;letter-spacing:0}
+.cover .affil{font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;opacity:.85;display:flex;flex-wrap:wrap;gap:4px 18px}
+.cover .abs{margin-top:clamp(20px,2.6vh,34px);font-size:clamp(14.5px,1vw,16px);line-height:1.62;max-width:78ch;
+  border-top:1px solid var(--faint);padding-top:clamp(16px,2vh,26px)}
+.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:clamp(24px,3vh,40px)}
+.btn{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:12.5px;
+  padding:12px 18px;border:1.5px solid var(--ink);display:inline-flex;align-items:center;gap:9px;line-height:1}
+.btn:hover{text-decoration:none}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn.solid:hover{background:transparent;color:var(--ink)}
+.btn.line:hover{background:var(--ink);color:var(--paper)}
+.btn .n{font-family:var(--mono);font-weight:400;letter-spacing:.02em;opacity:.7;text-transform:none}
+.btn svg{width:15px;height:15px}
+
+/* pixel-glitch decoration */
+.pixel-glitch{position:absolute;pointer-events:none;z-index:2}
+.pixel-glitch svg{display:block;width:100%;height:100%}
+.cover .pixel-glitch{top:clamp(50px,7vh,120px);right:0;width:clamp(150px,24vw,420px);bottom:clamp(60px,8vh,140px);opacity:.85}
+@media(max-width:900px){.cover .pixel-glitch{opacity:.25}}
+/* QR patch */
+.qr{position:absolute;z-index:6;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);
+  gap:1.5px;background:var(--paper);padding:4px;box-shadow:0 0 0 1.5px var(--paper)}
+.qr .px{background:var(--paper)} .qr .px.on{background:var(--ink)}
+.cover .qr{top:clamp(40px,5vh,96px);right:clamp(30px,7vw,120px);width:clamp(52px,5vw,76px);height:clamp(52px,5vw,76px)}
+@media(max-width:900px){.cover .qr{display:none}}
+/* vertical mono stack */
+.vstack{position:absolute;right:calc(var(--edge) - 4px);top:52%;transform:translateY(-50%);z-index:6;
+  display:flex;flex-direction:column;gap:clamp(12px,1.6vh,22px);align-items:flex-end}
+.vstack .v{font-family:var(--mono);font-size:12px;letter-spacing:.06em;writing-mode:vertical-rl;text-orientation:mixed}
+@media(max-width:1100px){.vstack{display:none}}
+
+/* ---- manifesto ---- */
+.manifesto{border-bottom:1px solid var(--faint)}
+.manifesto .stmt{font-family:var(--serif);font-weight:400;letter-spacing:-.005em;line-height:1.25;
+  font-size:clamp(20px,2.4vw,34px);max-width:44ch;margin:0}
+.manifesto .stmt em{font-style:italic}
+.manifesto .attr{margin-top:clamp(22px,2.6vh,38px);border-top:1px solid var(--ink);padding-top:14px;
+  display:flex;gap:20px;flex-wrap:wrap}
+.manifesto .attr .who{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.16em;font-size:13px}
+.manifesto .attr .m{font-family:var(--mono);font-size:13px;opacity:.8}
+
+/* ---- index list ---- */
+.index{display:grid;grid-template-columns:1fr;gap:0}
+.index .row{display:grid;grid-template-columns:64px 1fr;gap:clamp(14px,1.6vw,30px);
+  padding:clamp(18px,2.2vh,30px) 0;border-bottom:1px solid var(--faint)}
+.index .row:first-child{border-top:1px solid var(--faint)}
+.index .num{font-family:var(--mono);font-size:14px;letter-spacing:.04em;padding-top:6px}
+.index .row h3{font-family:var(--serif);font-weight:400;font-size:clamp(23px,2.2vw,34px);line-height:1.04;margin:0 0 6px}
+.index .row p{margin:0;font-size:clamp(14px,.96vw,15.5px);max-width:70ch;opacity:.92}
+
+/* ---- two-column ---- */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.4vw,40px)}
+@media(max-width:840px){.two{grid-template-columns:1fr}}
+.block{border:1.5px solid var(--ink);padding:clamp(18px,2vw,26px);background:var(--paper)}
+.block h3{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2vw,30px);margin:0 0 4px;display:flex;align-items:baseline;gap:10px}
+.block .role-tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  border:1.5px solid var(--ink);padding:3px 8px}
+.block .role-tag.inv{background:var(--ink);color:var(--paper)}
+.block ul{margin:12px 0 0;padding-left:18px;font-size:14.5px}
+.block li{margin:6px 0}
+.block p.sm{margin:0;font-size:14.5px}
+
+/* ---- plate (figure) ---- */
+.plate{border:1.5px solid var(--ink);background:var(--paper);padding:10px}
+.plate img{width:100%}
+.cap{font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;margin-top:12px;line-height:1.5;opacity:.9}
+.cap b{font-family:var(--sans);font-weight:700;letter-spacing:0}
+
+/* ---- demos ---- */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tab{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:11.5px;
+  padding:9px 13px;cursor:pointer;border:1.5px solid var(--ink);user-select:none}
+.tab:hover{background:var(--paper-2)}
+.tab.active,.tab.active:hover{background:var(--ink);color:var(--paper)}
+.demo-task{background:var(--paper-2);border-left:3px solid var(--ink);
+  padding:clamp(12px,1.4vw,16px) clamp(16px,1.8vw,24px);margin-bottom:16px}
+.demo-task summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.demo-task summary::-webkit-details-marker{display:none}
+.demo-task summary .k{font-family:var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:.18em;
+  font-size:13px;opacity:1}
+.demo-task summary::after{content:'+ show';font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;line-height:1;opacity:.7}
+.demo-task[open] summary::after{content:'\2212 hide'}
+.demo-task p{margin:clamp(10px,1.4vh,16px) 0 0;font-size:clamp(14px,.98vw,15.5px);line-height:1.6}
+.demo-meta{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;margin-top:16px;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.03em}
+.demo-meta .k{opacity:.6;text-transform:uppercase;letter-spacing:.1em;font-family:var(--sans);font-weight:600;font-size:11px}
+.demo-meta a{margin-left:auto;border-bottom:1.5px solid var(--ink)}
+
+/* ---- ledger table ---- */
+.ledger{width:100%}
+.lrow{display:grid;grid-template-columns:52px 1.3fr .8fr .8fr .7fr 1fr;gap:clamp(10px,1.2vw,24px);
+  align-items:center;padding:11px 0;border-bottom:1px solid var(--faint)}
+.lrow.head{border-bottom:1.5px solid var(--ink);padding-bottom:12px}
+.lrow.head>div{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:11px;opacity:.75}
+.lrow.group{border-bottom:0;padding:16px 0 4px}
+.lrow.group>div{font-family:var(--mono);font-size:13px;letter-spacing:.04em;grid-column:1/-1;
+  display:flex;align-items:baseline;gap:12px}
+.lrow.group .bk{font-weight:500}
+.lrow .num{font-family:var(--mono);font-size:13px}
+.lrow .nm{font-family:var(--sans);font-weight:500;font-size:15px}
+.lrow.sb .nm{font-family:var(--serif);font-weight:500;font-size:18px}
+.lrow.sb .num{background:var(--ink);color:var(--paper);text-align:center;padding:2px 0}
+.lrow .v{font-family:var(--mono);font-size:14px}
+.lrow .v.big{font-size:15px}
+.lrow.sb .v{font-weight:500}
+.delta{font-family:var(--mono);font-size:12.5px;opacity:.85}
+.delta.up::before{content:'\2191 '}
+.delta.dn::before{content:'\2193 '}
+.tbl-cols{overflow-x:auto}
+@media(max-width:760px){.lrow{grid-template-columns:40px 1.2fr .7fr .7fr;font-size:13px}
+  .lrow .hidecol{display:none}.lrow.head .hidecol{display:none}}
+
+/* ---- pixel-stack chart ---- */
+.chart{margin-top:8px}
+.chart .bars{display:flex;align-items:flex-end;gap:clamp(6px,1vw,16px);height:220px}
+.chart .grp{display:flex;gap:clamp(4px,.5vw,8px);align-items:flex-end;padding:0 clamp(6px,1vw,18px);
+  border-left:1px solid var(--faint)}
+.chart .grp:first-child{border-left:0}
+.chart .stack{display:flex;flex-direction:column-reverse;gap:2px;width:clamp(20px,2.4vw,38px)}
+.chart .cell{height:8px;background:var(--grid)}
+.chart .cell.on{background:var(--ink)}
+.chart .stack.hl .cell.on{background:var(--ink)}
+.chart .stack .capv{writing-mode:initial}
+.chart .axis{border-top:1.5px solid var(--ink);margin-top:10px;padding-top:8px;display:flex;gap:clamp(6px,1vw,16px)}
+.chart .axgrp{display:flex;flex-direction:column;gap:2px;padding:0 clamp(6px,1vw,18px)}
+.chart .axgrp .bk{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:10.5px;opacity:.7}
+.chart .axgrp .vals{display:flex;gap:clamp(4px,.5vw,8px)}
+.chart .axgrp .vals span{width:clamp(20px,2.4vw,38px);text-align:center;font-family:var(--mono);font-size:11px}
+.chart .axgrp .vals span.hl{font-weight:500}
+.chart .axgrp .vals span .mm{display:block;font-size:9.5px;opacity:.55;letter-spacing:.05em}
+.chart-legend{font-family:var(--mono);font-size:12px;margin-top:14px;opacity:.85;letter-spacing:.03em}
+
+/* ---- bibtex ---- */
+.bibwrap{position:relative;border:1.5px solid var(--ink);background:var(--paper-2)}
+pre.bib{margin:0;padding:20px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--ink)}
+.copy{position:absolute;top:0;right:0;background:var(--ink);color:var(--paper);border:0;cursor:pointer;
+  font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:11px;padding:8px 14px}
+
+/* ---- colophon / footer ---- */
+footer{border-top:1.5px solid var(--ink);padding:clamp(30px,4vh,52px) 0;background:var(--paper)}
+footer .cols{display:flex;gap:clamp(20px,3vw,56px);flex-wrap:wrap;align-items:flex-start}
+footer .col .ft{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.16em;font-size:11px;margin-bottom:5px;opacity:.7}
+footer .col{font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;line-height:1.6}
+footer .end{margin-left:auto;text-align:right}
+footer img{height:34px;margin-left:auto}
+
+/* nav-hint chrome */
+.navhint{position:fixed;left:var(--edge);bottom:clamp(14px,2.2vh,26px);z-index:30;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;opacity:.4;pointer-events:none}
+@media(max-width:800px){.navhint{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="bar">
+    <a class="brand" href="#top"><img src="static/img/logo_square.png" alt=""><b>Spine-Branch</b></a>
+    <div class="links">
+      <a class="hideable" href="#motivation">Motivation</a>
+      <a class="hideable" href="#method">Framework</a>
+      <a class="hideable" href="#demos">Demos</a>
+      <a class="hideable" href="#results">Results</a>
+      <a class="tag" href="https://github.com/mianzhang/spine-branch-computer-use" target="_blank" rel="noopener">Code</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+<!-- COVER -->
+<header class="cover">
+  <!-- pixel-glitch column -->
+  <div class="pixel-glitch" aria-hidden="true">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <defs><pattern id="vs" width="2.4" height="100" patternUnits="userSpaceOnUse">
+        <line x1="0.5" y1="0" x2="0.5" y2="100" stroke="#141C8C" stroke-width="1"/></pattern></defs>
+      <rect x="18" y="0"  width="58" height="12" fill="url(#vs)"/>
+      <rect x="34" y="12" width="50" height="12" fill="url(#vs)"/>
+      <rect x="10" y="24" width="66" height="13" fill="url(#vs)"/>
+      <rect x="28" y="37" width="52" height="12" fill="url(#vs)"/>
+      <rect x="20" y="49" width="60" height="13" fill="url(#vs)"/>
+      <rect x="38" y="62" width="46" height="12" fill="url(#vs)"/>
+      <rect x="16" y="74" width="62" height="13" fill="url(#vs)"/>
+      <rect x="30" y="87" width="50" height="12" fill="url(#vs)"/>
+    </svg>
+  </div>
+  <!-- QR patch -->
+  <!-- <div class="qr" aria-hidden="true">
+    <i class="px on"></i><i class="px"></i><i class="px on"></i><i class="px on"></i><i class="px"></i><i class="px on"></i><i class="px on"></i><i class="px on"></i>
+    <i class="px on"></i><i class="px"></i><i class="px"></i><i class="px on"></i><i class="px on"></i><i class="px"></i><i class="px"></i><i class="px on"></i>
+    <i class="px on"></i><i class="px on"></i><i class="px on"></i><i class="px"></i><i class="px on"></i><i class="px on"></i><i class="px"></i><i class="px on"></i>
+    <i class="px"></i><i class="px"></i><i class="px on"></i><i class="px on"></i><i class="px"></i><i class="px on"></i><i class="px on"></i><i class="px"></i>
+    <i class="px on"></i><i class="px on"></i><i class="px"></i><i class="px"></i><i class="px on"></i><i class="px"></i><i class="px on"></i><i class="px on"></i>
+    <i class="px"></i><i class="px on"></i><i class="px on"></i><i class="px on"></i><i class="px"></i><i class="px on"></i><i class="px"></i><i class="px"></i>
+    <i class="px on"></i><i class="px"></i><i class="px"></i><i class="px on"></i><i class="px on"></i><i class="px"></i><i class="px on"></i><i class="px on"></i>
+    <i class="px on"></i><i class="px on"></i><i class="px on"></i><i class="px"></i><i class="px"></i><i class="px on"></i><i class="px"></i><i class="px on"></i>
+  </div> -->
+  <!-- vertical mono stack -->
+  <!-- <div class="vstack" aria-hidden="true">
+    <div class="v">ODYSSEYS · 200 TASKS</div>
+    <div class="v">3 CUA BACKBONES</div>
+    <div class="v">SPINE / BRANCH</div>
+  </div> -->
+
+  <div class="wrap">
+    <div class="inner">
+      <h1>Spine-Branch Coordination for Multi-agent Computer Use</h1>
+      <p class="ed">You can merge two files but you <em style="font-style:italic">cannot merge</em> two live machines.</p>
+      <div class="meta">
+        <p class="authors">
+          Mian Zhang<sup>1,2</sup>, Manasi Sharma<sup>1</sup>, Sheng Zhang<sup>3</sup>,
+          Minlai Yang<sup>1</sup>, Kejian Shi<sup>1</sup>, Ying Liu<sup>1</sup>,
+          Zhiyu Zoey Chen<sup>2</sup>, Daniel Yue Zhang<sup>1</sup>
+        </p>
+        <div class="affil">
+          <span>1. Scale AI</span><span>2. University of Texas at Dallas</span>
+          <span>3. Johns Hopkins University</span>
+        </div>
+      </div>
+      <p class="abs">Computer use agents (CUAs) are increasingly deployed as multi-agent systems that decompose a task into multiple subtasks executed across parallel virtual machines (VMs). However, a critical <b>physical bottleneck</b> is that the state of two VMs cannot be merged. Previous systems handle this ad-hoc rather than treating it as a first-class concern. We propose <b>Spine-Branch Coordination</b> for multi-agent computer use, a framework that decomposes a task into a Spine-Branch graph, where the <b>spine</b> carries the main task flow with continuous VM state and <b>branch</b> tasks execute in parallel to collect information the spine needs to complete the task. Branch VMs are discarded once their tasks finish, so <b>no VM merging ever occurs</b>. Experiments show that on 200 long-horizon tasks from Odysseys and across three CUA backbones, Spine-Branch improves success rate over the baseline system by <b>6.0% to 16.5%</b>, while reducing per-task cost by <b>34% to 70%</b>, indicating that explicitly modeling VM-state merging constraint enables multi-agent computer use to scale efficiently.</p>
+      <div class="buttons">
+        <a class="btn line" href="#" onclick="return false;" title="Link coming soon">Paper <span class="n">· soon</span></a>
+        <a class="btn solid" href="https://github.com/mianzhang/spine-branch-computer-use" target="_blank" rel="noopener">Code <span class="n">· github</span></a>
+        <a class="btn line" href="#demos">Watch demos</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MOTIVATION: single-parent VM inheritance -->
+<section id="motivation">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="h">Single-parent VM inheritance</div>
+      <div class="lab">the core motivation</div>
+    </div>
+    <p class="lede" style="margin-bottom:clamp(24px,3vh,40px)">Multi-agent systems split a task across many virtual
+    machines (VMs), then combine the results. That works when the result is a <b>file</b> you can copy and combine freely, but not when it
+    is a <b>live machine</b>.
+
+    <div class="two">
+      <div class="block">
+        <h3><span class="role-tag inv">Copy&nbsp;✓</span> Extractable results</h3>
+        <p class="sm">A downloaded file, an exported dataset, a text answer. Once it is out of the VM it stands on its
+        own: copy it, send it to many VMs, stitch several together. It is just data.</p>
+      </div>
+      <div class="block">
+        <h3><span class="role-tag">Merge&nbsp;×</span> Live VM state</h3>
+        <p class="sm">CPU registers mid-instruction, the contents of RAM, running processes and their open file handles,
+        a logged-in session with its cookies. Ask yourself how you would fuse two machines' CPU and memory into one:
+        there is no such operation. To hand this state over is to hand over the whole VM.</p>
+      </div>
+    </div>
+
+    <div class="block" style="margin-top:clamp(16px,2vh,26px)">
+      <h3>The rule: single-parent VM inheritance</h3>
+      <p class="sm">A VM can start only two ways: booted <b>fresh</b>, or <b>cloned from one</b> existing VM (an operation
+      offered by every virtualization stack, such as VMware, KVM/QEMU, Hyper-V, Xen). No stack
+      has an operation that fuses two <em>running</em> machines into one. So a subtask can inherit a live environment from
+      <b>at most one parent, never two</b>. <b>This is our core motivation:</b> a coordination framework should be built
+      to respect this constraint from the start, instead of hitting it mid-run and scrambling to rebuild lost state.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FRAMEWORK -->
+<section id="method">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="h">The framework</div>
+      <div class="lab">spine + branches · role-typed DAG</div>
+    </div>
+    <div class="principle" style="margin-bottom:clamp(22px,2.8vh,40px)">
+      <div class="k">Design principle</div>
+      <p>State that cannot be cheaply rebuilt stays on one continuous flow (the <b>spine</b>); everything reducible
+      to a transferable artifact runs in parallel (the <b>branches</b>).</p>
+    </div>
+
+    <div class="plate" style="margin-bottom:clamp(22px,2.8vh,40px)">
+      <img src="static/img/framework.png" alt="Spine-Branch coordination framework">
+      <div class="cap"><b>Figure 1. Spine-Branch Coordination.</b> A task becomes a role-typed dependency DAG. VM state
+      is continuous along the spine via VM cloning; artifacts flow freely between any dependent nodes. Branch VMs are discarded after use.</div>
+    </div>
+
+    <div class="two">
+      <div class="block">
+        <h3><span class="role-tag inv">Spine</span> Persistent VM state</h3>
+        <p class="sm" style="opacity:.9">A chain workers linked by VM cloning;
+        each node has <b>exactly one state-parent</b>.</p>
+        <ul>
+          <li>Spine head boots fresh; each next node clones its predecessor's final VM.</li>
+          <li>Preserves live state costly to rebuild: sessions, open apps, in-progress workflows.</li>
+          <li>The final VM of spine is retained for final delivery.</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h3><span class="role-tag">Branch</span> Parallel gather, then discard</h3>
+        <p class="sm" style="opacity:.9">Every other worker. Runs on a fresh VM or a clone of one spine VM, in parallel
+        with the spine and other branches.</p>
+        <ul>
+          <li>Handles acquisition, analysis, transformation, validation, artifact construction.</li>
+          <li>Commits at least one extractable artifact on completion.</li>
+          <li>Its disposable VM is discarded the moment it finishes, so <b>no VM ever merges</b>.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DEMOS -->
+<section id="demos">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="h">Live trajectories</div>
+      <div class="lab">real runs · Odysseys + OSWorld 2.0</div>
+    </div>
+    <p class="lede" style="margin-bottom:clamp(18px,2.2vh,30px)">Animations driven by <b>real</b> Spine-Branch runs. The
+    timeline sweeps the persistent-VM-state spine; branch workers spawn in parallel, return an artifact to the spine,
+    then their VMs are discarded. Everything ends at the Manager.</p>
+
+    <div class="tabs" id="demoTabs">
+      <div class="tab active" data-k="sf">SF Christmas trip</div>
+      <div class="tab" data-k="baseball">Japan stadium tour</div>
+      <div class="tab" data-k="concert">Summer concert run</div>
+      <div class="tab" data-k="bball">NBA arena trip</div>
+      <div class="tab" data-k="cosprings">Colorado Springs</div>
+      <div class="tab" data-k="switch">Switch OLED guide</div>
+      <div class="tab" data-k="medschool">Top med schools</div>
+      <div class="tab" data-k="civic">Civic in snow</div>
+      <div class="tab" data-k="hexo">Hexo blog + gallery</div>
+      <div class="tab" data-k="neurips">Reviewer assignment</div>
+    </div>
+    <details class="demo-task" open>
+      <summary><span class="k">The task</span></summary>
+      <p id="demoTaskText">Can you help me plan a Christmas trip to San Francisco from Pittsburgh and do it in the browser so I can actually look at the options with you? Start on Google Flights and search round-trip flights from PIT to SFO leaving December 23 and coming back December 26, favoring a nonstop that gets me into San Francisco in the afternoon. Then use Google Hotels to find a place in North Beach, Nob Hill, or Union Square with at least a 4.5-star rating and under $400 per night, and open the actual hotel page. Switch to Google Maps and build a 3-day plan (Dec 23 to 25) covering the Golden Gate Bridge, Alcatraz, the Ferry Building, one Michelin restaurant, a well-known bakery, and a scenic viewpoint, grouped so travel legs stay short. Put everything into a CryptPad Document with the chosen flight, the hotel, and a day-by-day itinerary, and leave the flight, hotel, and key map tabs open as proof.</p>
+    </details>
+    <div class="plate"><img id="demoImg" src="static/demos/sf_trip.gif" alt="Spine-Branch demo"></div>
+    <div class="demo-meta" id="demoMeta"></div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="h">Main results</div>
+      <div class="lab">Odysseys · 200 tasks</div>
+    </div>
+
+    <!-- ledger -->
+    <div class="tbl-cols" style="margin-top:clamp(30px,3.6vh,52px)">
+      <div class="ledger">
+        <div class="lrow head">
+          <div>No.</div><div>Method</div><div>Success Rate ↑</div><div>Rubric Avg. ↑</div><div>Cost $ ↓</div><div class="hidecol">Mgr Tok · CUA Tok</div>
+        </div>
+
+        <div class="lrow group"><div><span class="bk">Qwen3.6-27B</span> </div></div>
+        <div class="lrow"><div class="num">a1</div><div class="nm">Single-Agent</div><div class="v">24.0</div><div class="v">46.7</div><div class="v">0.00</div><div class="v hidecol">n/a · 2.5M</div></div>
+        <div class="lrow"><div class="num">a2</div><div class="nm">MACU</div><div class="v">28.5</div><div class="v">53.9</div><div class="v">1.46</div><div class="v hidecol">492K · 5.9M</div></div>
+        <div class="lrow sb"><div class="num">a3</div><div class="nm">Spine-Branch</div><div class="v big">44.0 <span class="delta up">15.5</span></div><div class="v">66.6 <span class="delta up">12.8</span></div><div class="v">0.44 <span class="delta dn">1.02</span></div><div class="v hidecol">106K · 6.7M</div></div>
+
+        <div class="lrow group"><div><span class="bk">gpt-5.4-mini</span></div></div>
+        <div class="lrow"><div class="num">b1</div><div class="nm">Single-Agent</div><div class="v">42.0</div><div class="v">58.0</div><div class="v">2.00</div><div class="v hidecol">n/a · 2.6M</div></div>
+        <div class="lrow"><div class="num">b2</div><div class="nm">MACU</div><div class="v">58.5</div><div class="v">70.6</div><div class="v">12.23</div><div class="v hidecol">653K · 13.2M</div></div>
+        <div class="lrow sb"><div class="num">b3</div><div class="nm">Spine-Branch</div><div class="v big">64.5 <span class="delta up">6.0</span></div><div class="v">75.3 <span class="delta up">4.7</span></div><div class="v">8.06 <span class="delta dn">4.17</span></div><div class="v hidecol">115K · 9.6M</div></div>
+
+        <div class="lrow group"><div><span class="bk">Qwen3.7-Plus</span></div></div>
+        <div class="lrow"><div class="num">c1</div><div class="nm">Single-Agent</div><div class="v">55.0</div><div class="v">74.0</div><div class="v">1.20</div><div class="v hidecol">n/a · 2.9M</div></div>
+        <div class="lrow"><div class="num">c2</div><div class="nm">MACU</div><div class="v">50.5</div><div class="v">73.2</div><div class="v">5.75</div><div class="v hidecol">721K · 8.8M</div></div>
+        <div class="lrow sb"><div class="num">c3</div><div class="nm">Spine-Branch</div><div class="v big">67.0 <span class="delta up">16.5</span></div><div class="v">86.0 <span class="delta up">12.9</span></div><div class="v">2.87 <span class="delta dn">2.88</span></div><div class="v hidecol">138K · 5.6M</div></div>
+      </div>
+    </div>
+    <p class="cap" style="margin-top:16px"></p>
+    Spine-Branch guarantees state continuity and scales to 67.0. Manager overhead
+    drops ~5×, with no runtime replanning or relay. Deltas (↑ / ↓) are vs. MACU.</p>
+
+    <div class="plate" style="margin-top:clamp(26px,3vh,44px)">
+      <img src="static/img/level_performance.png" alt="Performance across difficulty">
+      <div class="cap"><b>Figure 2. Success by difficulty.</b> Spine-Branch degrades least as horizons lengthen; with
+      Qwen3.7-Plus it even scores higher on hard tasks than medium (65.1 vs. 60.9).</div>
+    </div>
+
+    <div class="topbar" style="margin-top:clamp(34px,4.4vh,60px)">
+      <div class="h" style="font-size:clamp(21px,2.2vw,30px)">OSWorld 2.0 · tasks worth decomposing</div>
+      <div class="lab">19 tasks · gpt-5.6-luna</div>
+    </div>
+    <p class="lede" style="margin-bottom:clamp(18px,2.2vh,28px)">OSWorld 2.0 grades desktop tasks programmatically
+    from a single VM's final state, so decomposition mostly adds execution overhead. But on the tasks whose plan holds
+    two or more independent, non-trivial gathering branches, <b>Spine-Branch wins</b>.</p>
+    <div class="tbl-cols">
+      <div class="ledger">
+        <div class="lrow head"><div>No.</div><div>Method</div><div>Reward ↑</div><div>Success ↑</div><div>Steps</div><div class="hidecol">Timeouts</div></div>
+        <div class="lrow"><div class="num">d1</div><div class="nm">Single-Agent</div><div class="v">0.12</div><div class="v">0 / 19</div><div class="v">83</div><div class="v hidecol">0 / 19</div></div>
+        <div class="lrow sb"><div class="num">d2</div><div class="nm">Spine-Branch</div><div class="v big">0.17 <span class="delta up">0.05</span></div><div class="v">1 / 19</div><div class="v">132</div><div class="v hidecol">0 / 19</div></div>
+      </div>
+    </div>
+    <p class="cap" style="margin-top:14px">On the 19 OSWorld 2.0 tasks worth decomposing (plans with two or more
+    independent, non-trivial gathering branches), Spine-Branch beats single-agent on reward (0.17 vs. 0.12) and lands
+    the only full success (1/19 vs. 0/19). Decomposition pays off precisely when a task genuinely splits into parallel
+    work.</p>
+  </div>
+</section>
+
+<!-- CITE -->
+<section id="cite">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="h">Cite the work</div>
+      <div class="lab">bibtex</div>
+    </div>
+    <div class="bibwrap">
+      <button class="copy" id="copyBib">Copy</button>
+      <pre class="bib" id="bibText">@article{zhang2026spinebranch,
+  title   = {Spine-Branch Coordination for Multi-agent Computer Use},
+  author  = {Zhang, Mian and Sharma, Manasi and Zhang, Sheng and Yang, Minlai
+             and Shi, Kejian and Liu, Ying and Chen, Zhiyu Zoey and Zhang, Daniel Yue},
+  year    = {2026},
+  note    = {Scale AI, University of Texas at Dallas, Johns Hopkins University},
+  url     = {https://github.com/mianzhang/spine-branch-computer-use}
+}</pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<script>
+// ---- demo switcher ----
+const DEMOS={
+  sf:{gif:'static/demos/sf_trip.gif',html:'static/demos/framework_sf_trip.html',task:'Plan a Christmas trip to San Francisco',spine:'3-spine chain',score:'100% rubric',
+    full:`Can you help me plan a Christmas trip to San Francisco from Pittsburgh and do it in the browser so I can actually look at the options with you? Start on Google Flights and search round-trip flights from PIT to SFO leaving December 23 and coming back December 26, favoring a nonstop that gets me into San Francisco in the afternoon. Then use Google Hotels to find a place in North Beach, Nob Hill, or Union Square with at least a 4.5-star rating and under $400 per night, and open the actual hotel page. Switch to Google Maps and build a 3-day plan (Dec 23 to 25) covering the Golden Gate Bridge, Alcatraz, the Ferry Building, one Michelin restaurant, a well-known bakery, and a scenic viewpoint, grouped so travel legs stay short. Put everything into a CryptPad Document with the chosen flight, the hotel, and a day-by-day itinerary, and leave the flight, hotel, and key map tabs open as proof.`},
+  baseball:{gif:'static/demos/baseball_japan.gif',html:'static/demos/framework_baseball_japan.html',task:'Plan a Japan NPB stadium tour',spine:'3-spine chain',score:'100% rubric',
+    full:`I'm planning a summer baseball trip through Japan where I see exactly one game at every NPB stadium, planned like something I could actually book. Start on npb.jp, pull the full summer schedule, identify all 12 NPB stadiums, and pick one realistic summer game at each so the dates fit one chronological trip. Use Google Flights and Google Travel to find the cheapest practical route between cities, mixing flights and trains. Use Booking.com to find a well-rated hotel near each stadium for each game night and open the listings. Use Google Search and Yelp to build a Japanese food plan in each city (ramen, izakaya, sushi, local specialties, markets), opening a few promising spots in tabs. Finally, assemble one clean chronological itinerary in a CryptPad Document with stadium, matchup, date, city, travel leg, transport, hotel, food plan, and estimated costs, and leave the doc open.`},
+  concert:{gif:'static/demos/concert_tour.gif',html:'static/demos/framework_concert_tour.html',task:'Map out a summer concert run',spine:'4-spine chain',score:'live trajectory',
+    full:`I'm mapping out a summer concert run and want to do it in a real browser. Use Google to find the official tour pages for Zedd, Bad Bunny, and TWICE, open each in its own tab, and pull every U.S. summer show with city, venue, date, and ticket link, at least 10 options total, organized in a CryptPad Sheets spreadsheet titled Summer Concert Plan. Work out a realistic sequence that attends at least one show from each artist in the same summer, then use Google Flights to check real flights for each leg and open the results. Use Booking.com to find a hotel in each concert city and open the listings, and use Google Maps or Search for a couple of food options near each venue. Finish the spreadsheet with the concert options plus the chosen three-concert itinerary, verified flights, hotels, and food picks, and keep the official artist pages and key booking tabs open.`},
+  bball:{gif:'static/demos/bball.gif',html:'static/demos/framework_bball.html',task:'Plan a 30-arena NBA road trip',spine:'2-spine chain',score:'100% rubric',
+    full:`Plan a spring road trip that catches one game at every one of the 30 NBA arenas, planned like something bookable. On NBA.com pick one spring home game per arena, favoring LeBron, Curry, or Wembanyama nights, and keep the key game and schedule pages open. Use Google Flights and Maps to work out the cheapest practical route between cities (flying vs driving in regional clusters), then Booking.com for a nearby hotel each night and Yelp for a must-try food spot near each arena, opening representative listings. Compile everything into a CryptPad Document table of all 30 stops with arena, date, matchup, featured star, travel leg and cost, hotel, food pick, and a running total, left open for review.`},
+  cosprings:{gif:'static/demos/cosprings.gif',html:'static/demos/framework_cosprings.html',task:'Build a Colorado Springs weekend',spine:'2-spine chain',score:'100% rubric',
+    full:`Decide whether Colorado Springs has enough variety for a fun long weekend, using only public pages. Start from local-guide coverage, then assemble at least 12 options: 3 free or low-cost, 3 food or drink, 3 outdoor, and 3 current local events, each verified on an official page with area, price, and hours. Keep local-guide, venue, and map tabs open, then turn the options into 2 geographically sensible weekend plans (budget and experience-focused) covering Friday evening through Sunday. Finish with a recommendation and a CryptPad spreadsheet dining itinerary of standout restaurants for every meal.`},
+  switch:{gif:'static/demos/switch.gif',html:'static/demos/framework_switch.html',task:'Nintendo Switch OLED buying guide',spine:'2-spine chain',score:'100% rubric',
+    full:`Build a browser-based buying guide for a first Nintendo Switch OLED. Start on the official Nintendo pages to verify compatibility, then compare public product pages across Amazon and at least two other major retailers. Cover 5 starter categories (screen protector, case, extra controller, microSD, charging or dock power), comparing exactly 3 products each (15 total) with name, price, retailer, and why to pick it. Turn the comparison into 3 complete starter bundles (budget, everyday, travel or multiplayer), add a beginner game pick, keep the key product and compatibility tabs open, and recommend the single best-value bundle to buy.`},
+  medschool:{gif:'static/demos/medschool.gif',html:'static/demos/framework_medschool.html',task:'Research top U.S. medical schools',spine:'2-spine chain',score:'100% rubric',
+    full:`Get a realistic picture of the top U.S. medical schools, organized to review later. Pull a top-20 list from U.S. News and cross-check it on Times Higher Education so the shortlist is supported by more than one ranking. Open each school's official MD admissions page in its own tab and verify the deadline, MCAT requirement, and a brief overview, then find at least one funding opportunity, fellowship, or special program per school on the official sites and open those too. Compile a CryptPad document titled Top Medical Schools and Fellowships with an entry per school (admissions and program links, 20+ funding entries), keep a representative set of tabs open, and summarize which schools offer the strongest funding and where to focus first.`},
+  hexo:{gif:'static/demos/hexo.gif',html:'static/demos/framework_hexo.html',task:'Rebuild a Hexo blog and serve it locally',spine:'2-spine chain',score:'OSWorld 2.0 · reward 1.0',
+    full:`Recreate a blog from a screenshot and stand it up locally, plus build an image gallery from a collage. One branch identifies the Hexo theme from a saved homepage screenshot; in parallel, another branch splits an Expedition 33 character collage into full per-character portraits. The spine then sets up a Hexo blog in ~/Blog with the identified theme, inherits that live VM, adds the cropped portraits as a titled gallery, and serves the finished site on localhost:8080. (An OSWorld 2.0 desktop task: terminal, file manager, and image tools.)`},
+  civic:{gif:'static/demos/civic.gif',html:'static/demos/framework_civic.html',task:'Vet a Civic Hybrid as a snow commuter',spine:'2-spine chain',score:'100% rubric',
+    full:`Investigate whether a Honda Civic Hatchback Hybrid works as a winter daily driver in snow, using public pages only. Gather at least 8 credible sources (3+ video tests, 2+ owner winter reports, 2+ official spec or feature pages) and summarize what each says about snow starts, traction, braking, hills, warm-up, and visibility, keeping the strongest tabs open. Compare it against exactly 3 realistic hybrid alternatives on drivetrain, clearance, and winter features, rating each as confident, acceptable-with-winter-tires, or poor. Finish with a decision memo on viability, the biggest caveats, and the strongest snow alternative.`},
+  neurips:{gif:'static/demos/neurips.gif',html:'static/demos/framework_neurips.html',task:'Assign paper reviewers across desktop apps',spine:'1-spine + 2 branches',score:'OSWorld 2.0 · reward 1.0',
+    full:`Act as an Area Chair assigning reviewers to 6 submitted papers for a NeurIPS 2026 workshop, working across three desktop apps. Two branches read the assignment instructions in parallel, one from TeamChat and one from MailHub, and return them as artifacts. The spine then carries out the final reviewer assignment in ReviewSphere using both sets of instructions. (An OSWorld 2.0 desktop task with a gather-then-commit shape.)`}
+};
+const dImg=document.getElementById('demoImg'), dMeta=document.getElementById('demoMeta'), dTask=document.getElementById('demoTaskText');
+function showDemo(k){const d=DEMOS[k]; dImg.src=d.gif; dImg.alt=d.task; dTask.textContent=d.full;
+  dMeta.innerHTML=`<span><span class="k">Spine</span> ${d.spine}</span>`+
+    `<span><span class="k">Result</span> ${d.score}</span>`;}
+document.querySelectorAll('#demoTabs .tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('#demoTabs .tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active'); showDemo(t.dataset.k);}));
+showDemo('sf');
+
+// ---- copy bibtex ----
+document.getElementById('copyBib').addEventListener('click',async()=>{
+  const b=document.getElementById('copyBib');
+  try{await navigator.clipboard.writeText(document.getElementById('bibText').textContent);
+    b.textContent='Copied'; setTimeout(()=>b.textContent='Copy',1500);}catch(e){b.textContent='Select';}
+});
+</script>
+</body>
+</html>

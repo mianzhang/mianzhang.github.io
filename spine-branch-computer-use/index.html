@@ -303,7 +303,7 @@ footer img{height:34px;margin-left:auto}
       </div>
       <p class="abs">Computer use agents (CUAs) are increasingly deployed as multi-agent systems that decompose a task into multiple subtasks executed across parallel virtual machines (VMs). However, a critical <b>physical bottleneck</b> is that the state of two VMs cannot be merged. Previous systems handle this ad-hoc rather than treating it as a first-class concern. We propose <b>Spine-Branch Coordination</b> for multi-agent computer use, a framework that decomposes a task into a Spine-Branch graph, where the <b>spine</b> carries the main task flow with continuous VM state and <b>branch</b> tasks execute in parallel to collect information the spine needs to complete the task. Branch VMs are discarded once their tasks finish, so <b>no VM merging ever occurs</b>. Experiments show that on 200 long-horizon tasks from Odysseys and across three CUA backbones, Spine-Branch improves success rate over the baseline system by <b>6.0% to 16.5%</b>, while reducing per-task cost by <b>34% to 70%</b>, indicating that explicitly modeling VM-state merging constraint enables multi-agent computer use to scale efficiently.</p>
       <div class="buttons">
-        <a class="btn line" href="#" onclick="return false;" title="Link coming soon">Paper <span class="n">· soon</span></a>
+        <a class="btn line" href="spine-branch-paper.pdf" target="_blank" rel="noopener">Paper <span class="n">· pdf</span></a>
         <a class="btn solid" href="https://github.com/mianzhang/spine-branch-computer-use" target="_blank" rel="noopener">Code <span class="n">· github</span></a>
         <a class="btn line" href="#demos">Watch demos</a>
       </div>
@@ -487,7 +487,7 @@ footer img{height:34px;margin-left:auto}
 </section>
 
 <!-- CITE -->
-<section id="cite">
+<!-- <section id="cite">
   <div class="wrap">
     <div class="topbar">
       <div class="h">Cite the work</div>
@@ -505,7 +505,7 @@ footer img{height:34px;margin-left:auto}
 }</pre>
     </div>
   </div>
-</section>
+</section> -->
 
 </main>
 

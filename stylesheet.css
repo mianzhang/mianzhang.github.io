@@ -251,6 +251,58 @@ body::before {
   margin: 0 0 1rem 0;
 }
 
+.subsection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.subsection-header h3 {
+  margin: 0;
+}
+
+/* Selected / Full paper list switch */
+.view-toggle {
+  display: inline-flex;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.view-toggle button {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  background: transparent;
+  border: 0;
+  padding: 0.45em 0.85em;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+}
+
+.view-toggle button + button {
+  border-left: 1px solid var(--border);
+}
+
+.view-toggle button:hover {
+  color: var(--accent);
+}
+
+.view-toggle button[aria-pressed="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.papers[data-view="selected"] .paper.extra {
+  display: none;
+}
+
 /* Papers — card-like blocks */
 .paper {
   padding: 1.25rem 1.25rem 1.25rem 1rem;

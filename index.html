@@ -32,6 +32,15 @@
         }
       }
       document.addEventListener('DOMContentLoaded', setRandomAvatar);
+
+      function setPaperView(view) {
+        const papers = document.getElementById('papers');
+        if (!papers) return;
+        papers.setAttribute('data-view', view);
+        document.querySelectorAll('.view-toggle button').forEach(btn => {
+          btn.setAttribute('aria-pressed', String(btn.dataset.view === view));
+        });
+      }
     </script>
   </head>
 
@@ -71,206 +80,206 @@
         <h2>Research</h2>
         <p>
           I work on reinforcement learning and synthetic data to improve the capabilities and reliability of LLM/VLM agents. I am broadly interested in research directions that contribute to AGI.
-          <!-- Recently, I'm mainly working on post-training and synthetic data to make LLMs more <strong>controllable</strong>. Research topics includes complex instruction following, smart agentic search, and instruction hierarchy enforcing.  -->
-          <!-- I'm also interested in LLMs' agentic tool using (<a href="https://arxiv.org/abs/2508.15760">LiveMCP-101</a>), reasoning and efficiency. -->
-
         </p>
 
         <div class="subsection">
-          <h3>SELECTED PAPERS</h3>
+          <div class="subsection-header">
+            <h3>Papers</h3>
+            <div class="view-toggle" role="group" aria-label="Paper list view">
+              <button type="button" data-view="selected" aria-pressed="true" onclick="setPaperView('selected')">Selected</button>
+              <button type="button" data-view="full" aria-pressed="false" onclick="setPaperView('full')">Full</button>
+            </div>
+          </div>
           <p>* equal contribution</p>
 
-          <div class="paper">
-            <a href="https://arxiv.org/abs/2508.09125">
-              <div class="paper-title">LogicIF: Towards Complex Logic Instruction Following</div>
-            </a>
-          <div class="paper-authors">
-            <strong>Mian Zhang</strong>, Shujian Liu, Sixun Dong, Ming Yin, Yebowen Hu, Xun Wang, Steven Ma, Song Wang, Sathish Reddy Indurthi, Haoyun Deng, Zhiyu Zoey Chen, Kaiqiang Song
-          </div>
-          <div class="paper-venue">COLM 2026</div>
-          <div class="paper-links">
-            <a href="https://github.com/mianzhang/LogicIF">code and benchmark</a>
+          <div class="papers" id="papers" data-view="selected">
+            <div class="paper">
+              <a href="https://arxiv.org/abs/2508.09125">
+                <div class="paper-title">LogicIF: Towards Complex Logic Instruction Following</div>
+              </a>
+              <div class="paper-authors">
+                <strong>Mian Zhang</strong>, Shujian Liu, Sixun Dong, Ming Yin, Yebowen Hu, Xun Wang, Steven Ma, Song Wang, Sathish Reddy Indurthi, Haoyun Deng, Zhiyu Zoey Chen, Kaiqiang Song
+              </div>
+              <div class="paper-venue">COLM 2026</div>
+              <div class="paper-links">
+                <a href="https://github.com/mianzhang/LogicIF">code and benchmark</a>
+              </div>
+            </div>
+
+            <div class="paper extra">
+              <a href="http://arxiv.org/abs/2502.19731">
+                <div class="paper-title">Preference Learning Unlocks LLMs' Psycho-Counseling Skills</div>
+              </a>
+              <div class="paper-authors">
+                <strong>Mian Zhang</strong>, Shaun M. Eack, Zhiyu Zoey Chen
+              </div>
+              <div class="paper-venue">ACL 2026</div>
+              <div class="paper-links">
+                <a href="">code</a>/ &nbsp; <a href="https://huggingface.co/Psychotherapy-LLM">dataset and models</a>
+              </div>
+            </div>
+
+            <div class="paper">
+              <a href="https://arxiv.org/abs/2510.07794">
+                <div class="paper-title">HiPRAG: Hierarchical Process Rewards for Efficient Agentic Retrieval Augmented Generation</div>
+              </a>
+              <div class="paper-authors">
+                Peilin Wu, <strong>Mian Zhang</strong>, Kun Wan, Wentian Zhao, Kaiyu He, Xinya Du, Zhiyu Chen
+              </div>
+              <div class="paper-venue">ICLR 2026</div>
+              <div class="paper-links">
+                <a href="https://github.com/qualidea1217/HiPRAG">code</a>
+              </div>
+            </div>
+
+            <div class="paper">
+              <a href="https://arxiv.org/abs/2508.18264">
+                <div class="paper-title">MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs</div>
+              </a>
+              <div class="paper-authors">
+                Sixun Dong, Juhua Hu, <strong>Mian Zhang</strong>, Ming Yin, Yanjie Fu, Qi Qian
+              </div>
+              <div class="paper-venue">ICLR 2026</div>
+              <div class="paper-links">
+                <a href="https://cv.ironieser.cc/projects/mmtok.html">Project Page</a>
+              </div>
+            </div>
+
+            <div class="paper">
+              <a href="https://arxiv.org/abs/2505.17281">
+                <div class="paper-title">Search Wisely: Mitigating Sub-optimal Agentic Searches By Reducing Uncertainty</div>
+              </a>
+              <div class="paper-authors">
+                <strong>Mian Zhang*</strong>, Peilin Wu*, Xinlu Zhang, Xinya Du, Zhiyu Zoey Chen
+              </div>
+              <div class="paper-venue">EMNLP 2025</div>
+              <div class="paper-links">
+                <a href="">code</a>
+              </div>
+            </div>
+
+            <div class="paper">
+              <a href="https://arxiv.org/abs/2408.10455">
+                <div class="paper-title">IDEA: Enhancing the Rule Learning Ability of Large Language Model Agent through Induction, Deduction, and Abduction</div>
+              </a>
+              <div class="paper-authors">
+                Kaiyu He, <strong>Mian Zhang</strong>, Shuo Yan, Peilin Wu, Zhiyu Zoey Chen
+              </div>
+              <div class="paper-venue">ACL 2025</div>
+              <div class="paper-links">
+                <a href="https://github.com/KaiyuHe998/RULEARN_IDEA_project">code and data</a>
+              </div>
+            </div>
+
+            <div class="paper">
+              <a href="https://arxiv.org/abs/2410.13218">
+                <div class="paper-title">CBT-Bench: Evaluating Large Language Models on Assisting Cognitive Behavior Therapy</div>
+              </a>
+              <div class="paper-authors">
+                <strong>Mian Zhang</strong>*, Xianjun Yang*, Xinlu Zhang, Travis Labrum, Jamie C. Chiu, Shaun M. Eack, Fei Fang, William Yang Wang, Zhiyu Zoey Chen
+              </div>
+              <div class="paper-venue">NAACL 2025</div>
+              <div class="paper-links">
+                <a href="https://huggingface.co/datasets/Psychotherapy-LLM/CBT-Bench">dataset</a>
+              </div>
+            </div>
+
+            <div class="paper extra">
+              <a href="https://aclanthology.org/2023.acl-long.2">
+                <div class="paper-title">SafeConv: Explaining and Correcting Conversational Unsafe Bahavior</div>
+              </a>
+              <div class="paper-authors">
+                <strong>Mian Zhang</strong>, Lifeng Jin, Linfeng Song, Haitao Mi, Wenliang Chen, Dong Yu
+              </div>
+              <div class="paper-venue">ACL 2023 (Oral Presentation)</div>
+              <div class="paper-links">
+                <a href="https://github.com/mianzhang/SafeConv">dataset</a>
+              </div>
+            </div>
+
+            <div class="paper extra">
+              <a href="https://arxiv.org/abs/2508.15760">
+                <div class="paper-title">LiveMCP-101: Stress Testing and Diagnosing MCP-enabled Agents on Challenging Queries</div>
+              </a>
+              <div class="paper-authors">
+                Ming Yin, Dinghan Shen, Silei Xu, Jianbing Han, Sixun Dong, <strong>Mian Zhang</strong>, Yebowen Hu, Shujian Liu, Simin Ma, Song Wang, Sathish Reddy Indurthi, Xun Wang, Yiran Chen, Kaiqiang Song
+              </div>
+              <div class="paper-venue">Preprint</div>
+              <div class="paper-links">
+                <a href="">code and benchmark (coming soon)</a>
+              </div>
+            </div>
+
+            <div class="paper extra">
+              <a href="https://arxiv.org/abs/2506.17335">
+                <div class="paper-title">LMR-Bench: Evaluating LLM Agent's Ability on Reproducing Language Modeling Research</div>
+              </a>
+              <div class="paper-authors">
+                Shuo Yan, Ziming Luo, Zimu Wang, Ruochen Li, Daoyang Li, Liqiang Jing, Kaiyu He, Peilin Wu, Juntong Ni, George Michalopoulos, Yue Zhang, Ziyang Zhang, <strong>Mian Zhang</strong>, Zhiyu Chen, Xinya Du
+              </div>
+              <div class="paper-venue">EMNLP 2025</div>
+              <div class="paper-links">
+                <a href="">dataset and code</a>
+              </div>
+            </div>
+
+
+            <div class="paper extra">
+              <a href="https://www.nature.com/articles/s44387-025-00011-z">
+                <div class="paper-title">Large Language Models for Disease Diagnosis: A Scoping Review</div>
+              </a>
+              <div class="paper-authors">
+                Shuang Zhou*, Zidu Xu*, <strong>Mian Zhang</strong>*, Chunpu Xu*, Yawen Guo, Zaifu Zhan, Sirui Ding, Jiashuo Wang, Kaishuai Xu, Yi Fang, Liqiao Xia, Jeremy Yeung, Daochen Zha, Mingquan Lin, Rui Zhang
+              </div>
+              <div class="paper-venue">npj Artificial Intelligence 2025</div>
+            </div>
+
+            <!-- <div class="paper extra">
+              <a href="https://aclanthology.org/2024.findings-eacl.16.pdf">
+                <div class="paper-title">Inconsistent Dialogue Responses and How to Recover From Them</div>
+              </a>
+              <div class="paper-authors">
+                <strong>Mian Zhang</strong>, Lifeng Jin, Linfeng Song, Haitao Mi, Dong Yu
+              </div>
+              <div class="paper-venue">EACL 2024</div>
+              <div class="paper-links">
+                <a href="https://github.com/mianzhang/CIDER">code and dataset</a>
+              </div>
+            </div> -->
+
+            <!-- <div class="paper extra">
+              <a href="https://aclanthology.org/2023.eacl-main.18.pdf">
+                <div class="paper-title">Friend-training: Learning from Different but Related Tasks</div>
+              </a>
+              <div class="paper-authors">
+                <strong>Mian Zhang</strong>, Lifeng Jin, Linfeng Song, Haitao Mi, Dong Yu
+              </div>
+              <div class="paper-venue">EACL 2023</div>
+            </div> -->
+
+            <!-- <div class="paper extra">
+              <a href="https://arxiv.org/abs/2306.10042">
+                <div class="paper-title">A Pairing Enhancement Approach for Aspect Sentiment Triplet Extraction</div>
+              </a>
+              <div class="paper-authors">
+                Fang Yang, <strong>Mian Zhang</strong>, Gongzhen Hu, Xiabing Zhou
+              </div>
+              <div class="paper-venue">KSEM 2023</div>
+            </div> -->
+
+            <!-- <div class="paper extra">
+              <a href="https://ieeexplore.ieee.org/document/10096161">
+                <div class="paper-title">Emotion Recognition in Conversation from Variable-Length Context</div>
+              </a>
+              <div class="paper-authors">
+                <strong>Mian Zhang</strong>, Xiabing Zhou, Wenliang Chen, Min Zhang
+              </div>
+              <div class="paper-venue">ICASSP 2023</div>
+            </div> -->
+
           </div>
         </div>
-
-        <!-- <div class="paper">
-          <a href="https://arxiv.org/abs/2508.15760">
-            <div class="paper-title">LiveMCP-101: Stress Testing and Diagnosing MCP-enabled Agents on Challenging Queries</div>
-          </a>
-          <div class="paper-authors">
-            Ming Yin, Dinghan Shen, Silei Xu, Jianbing Han, Sixun Dong, <strong>Mian Zhang</strong>, Yebowen Hu, Shujian Liu, Simin Ma, Song Wang, Sathish Reddy Indurthi, Xun Wang, Yiran Chen, Kaiqiang Song
-          </div>
-          <div class="paper-venue">Preprint</div>
-          <div class="paper-links">
-            <a href="">code and benchmark (coming soon)</a>
-          </div>
-        </div> -->
-
-        <div class="paper">
-          <a href="http://arxiv.org/abs/2502.19731">
-            <div class="paper-title">Preference Learning Unlocks LLMs' Psycho-Counseling Skills</div>
-          </a>
-          <div class="paper-authors">
-            <strong>Mian Zhang</strong>, Shaun M. Eack, Zhiyu Zoey Chen
-          </div>
-          <div class="paper-venue">ACL 2026</div>
-          <div class="paper-links">
-            <a href="">code</a>/ &nbsp; <a href="https://huggingface.co/Psychotherapy-LLM">dataset and models</a>
-          </div>
-        </div>
-
-        <div class="paper">
-          <a href="https://arxiv.org/abs/2510.07794">
-            <div class="paper-title">HiPRAG: Hierarchical Process Rewards for Efficient Agentic Retrieval Augmented Generation</div>
-          </a>
-          <div class="paper-authors">
-            Peilin Wu, <strong>Mian Zhang</strong>, Kun Wan, Wentian Zhao, Kaiyu He, Xinya Du, Zhiyu Chen
-          </div>
-          <div class="paper-venue">ICLR 2026</div>
-          <div class="paper-links">
-            <a href="https://github.com/qualidea1217/HiPRAG">code</a>
-          </div>
-        </div>
-
-        <div class="paper">
-          <a href="https://arxiv.org/abs/2508.18264">
-            <div class="paper-title">MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs</div>
-          </a>
-          <div class="paper-authors">
-            Sixun Dong, Juhua Hu, <strong>Mian Zhang</strong>, Ming Yin, Yanjie Fu, Qi Qian
-          </div>
-          <div class="paper-venue">ICLR 2026</div>
-          <div class="paper-links">
-            <a href="https://cv.ironieser.cc/projects/mmtok.html">Project Page</a>
-          </div>
-        </div>
-        
-        <div class="paper">
-          <a href="https://arxiv.org/abs/2505.17281">
-            <div class="paper-title">Search Wisely: Mitigating Sub-optimal Agentic Searches By Reducing Uncertainty</div>
-          </a>
-          <div class="paper-authors">
-            <strong>Mian Zhang*</strong>, Peilin Wu*, Xinlu Zhang, Xinya Du, Zhiyu Zoey Chen
-          </div>
-          <div class="paper-venue">EMNLP 2025</div>
-          <div class="paper-links">
-            <a href="">code</a>
-          </div>
-        </div>
-
-        <div class="paper">
-          <a href="https://arxiv.org/abs/2408.10455">
-            <div class="paper-title">IDEA: Enhancing the Rule Learning Ability of Large Language Model Agent through Induction, Deduction, and Abduction</div>
-          </a>
-          <div class="paper-authors">
-            Kaiyu He, <strong>Mian Zhang</strong>, Shuo Yan, Peilin Wu, Zhiyu Zoey Chen
-          </div>
-          <div class="paper-venue">ACL 2025</div>
-          <div class="paper-links">
-            <a href="https://github.com/KaiyuHe998/RULEARN_IDEA_project">code and data</a>
-          </div>
-        </div>
-
-        <!-- <div class="paper">
-          <a href="https://arxiv.org/abs/2506.17335">
-            <div class="paper-title">LMR-Bench: Evaluating LLM Agent's Ability on Reproducing Language Modeling Research</div>
-          </a>
-          <div class="paper-authors">
-            Shuo Yan, Ziming Luo, Zimu Wang, Ruochen Li, Daoyang Li, Liqiang Jing, Kaiyu He, Peilin Wu, Juntong Ni, George Michalopoulos, Yue Zhang, Ziyang Zhang, <strong>Mian Zhang</strong>, Zhiyu Chen, Xinya Du
-          </div>
-          <div class="paper-venue">EMNLP 2025</div>
-          <div class="paper-links">
-            <a href="">dataset and code</a>
-          </div>
-        </div> -->
-
-        <div class="paper">
-          <a href="https://arxiv.org/abs/2410.13218">
-            <div class="paper-title">CBT-Bench: Evaluating Large Language Models on Assisting Cognitive Behavior Therapy</div>
-          </a>
-          <div class="paper-authors">
-            <strong>Mian Zhang</strong>*, Xianjun Yang*, Xinlu Zhang, Travis Labrum, Jamie C. Chiu, Shaun M. Eack, Fei Fang, William Yang Wang, Zhiyu Zoey Chen
-          </div>
-          <div class="paper-venue">NAACL 2025</div>
-          <div class="paper-links">
-            <a href="https://huggingface.co/datasets/Psychotherapy-LLM/CBT-Bench">dataset</a>
-          </div>
-        </div>
-
-        <div class="paper">
-          <a href="https://aclanthology.org/2023.acl-long.2">
-            <div class="paper-title">SafeConv: Explaining and Correcting Conversational Unsafe Bahavior</div>
-          </a>
-          <div class="paper-authors">
-            <strong>Mian Zhang</strong>, Lifeng Jin, Linfeng Song, Haitao Mi, Wenliang Chen, Dong Yu
-          </div>
-          <div class="paper-venue">ACL 2023 (Oral Presentation)</div>
-          <div class="paper-links">
-            <a href="https://github.com/mianzhang/SafeConv">dataset</a>
-          </div>
-        </div>
-        </div>
-
-        <!-- <div class="subsection">
-          <h3>OTHER PUBLICATIONS</h3> -->
-
-
-
-        <!-- <div class="paper">
-          <a href="https://www.nature.com/articles/s44387-025-00011-z">
-            <div class="paper-title">Large Language Models for Disease Diagnosis: A Scoping Review</div>
-          </a>
-          <div class="paper-authors">
-            Shuang Zhou*, Zidu Xu*, <strong>Mian Zhang</strong>*, Chunpu Xu*, Yawen Guo, Zaifu Zhan, Sirui Ding, Jiashuo Wang, Kaishuai Xu, Yi Fang, Liqiao Xia, Jeremy Yeung, Daochen Zha, Mingquan Lin, Rui Zhang
-          </div>
-          <div class="paper-venue">npj Artificial Intelligence 2025</div>
-        </div> -->
-
-        <!-- <div class="paper">
-          <a href="https://aclanthology.org/2024.findings-eacl.16.pdf">
-            <div class="paper-title">Inconsistent dialogue responses and how to recover from them</div>
-          </a>
-          <div class="paper-authors">
-            <strong>Mian Zhang</strong>, Lifeng Jin, Linfeng Song, Haitao Mi, Dong Yu
-          </div>
-          <div class="paper-venue">EACL 2024</div>
-          <div class="paper-links">
-            <a href="https://github.com/mianzhang/CIDER">code and dataset</a>
-          </div>
-        </div>
-
-        <div class="paper">
-          <a href="https://aclanthology.org/2023.eacl-main.18.pdf">
-            <div class="paper-title">Friend-training: Learning from Different but Related Tasks</div>
-          </a>
-          <div class="paper-authors">
-            <strong>Mian Zhang</strong>, Lifeng Jin, Linfeng Song, Haitao Mi, Dong Yu
-          </div>
-          <div class="paper-venue">EACL 2023</div>
-        </div>
-
-        <div class="paper">
-          <a href="https://arxiv.org/abs/2306.10042">
-            <div class="paper-title">A Pairing Enhancement Approach for Aspect Sentiment Triplet Extraction</div>
-          </a>
-          <div class="paper-authors">
-            Fang Yang, <strong>Mian Zhang</strong>, Gongzhen Hu, Xiabing Zhou
-          </div>
-          <div class="paper-venue">KSEM 2023</div>
-        </div>
-
-        <div class="paper">
-          <a href="https://ieeexplore.ieee.org/document/10096161">
-            <div class="paper-title">Emotion Recognition in Conversation from Variable-Length Context</div>
-          </a>
-          <div class="paper-authors">
-            <strong>Mian Zhang</strong>, Xiabing Zhou, Wenliang Chen, Min Zhang
-          </div>
-          <div class="paper-venue">ICASSP 2023</div>
-        </div>
-        </div> -->
-
-      <!-- </section> -->
+      </section>
 
 
       <!-- <section class="section">
